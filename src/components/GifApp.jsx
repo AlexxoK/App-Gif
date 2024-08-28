@@ -1,19 +1,18 @@
 import { useGif } from "../hooks/useGif"
+import { BuscarGif } from "./BuscarGif"
+import { ContenedorGifs } from "./ContenedorGifs"
 
 // functional component
 export const GifApp = () => {
 
-    const {gif, handleGetGif} = useGif()
+    const { handleGetGif, gifs, nombreCategoria } = useGif()
 
     return(
         // fragment
         <>
-            <div>
-                <button onClick={handleGetGif} className="btn btn-outline-success position-absolute start-50">Generar Gif</button>
-            </div>
-            <div>
-                <img className="w-50 m-5" src={gif} alt="gif" />
-            </div>
+        {/*props -> una propiedad que viaja entre componentes*/}
+            <BuscarGif handleGetGif={ handleGetGif }/>
+            <ContenedorGifs gifs={ gifs } nombreCategoria={nombreCategoria}/>
         </>
     )
 }

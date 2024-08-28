@@ -1,24 +1,26 @@
-import {useState} from 'react'
+import { useState } from 'react'
+import { reqGif } from '../services/gif'
 
 export const useGif = () => {
     
-    const [gif, setGif] = useState('')
-    
-    const reqGif = async() => {
-        await fetch('https://api.giphy.com/v1/gifs/random?api_key=RcCR91TAv9j2mGomD9ZGoOnl8qZgm7vB').then(async(resp) => {
-            await resp.json().then(({data}) => {
-                setGif(data.images.original.url)
-            })
-        }).catch(console.err)
+    const [gifs, setGifs] = useState([])
+    const [nombreCategoria, setNombreCategoria] = useState('')
+
+    const handleGetGif = (e, categoria) => {
+        // evita la recarga completa del navegador
+        e.preventDefault()
+
+        reqGif(categoria).then((gifs) => {
+            setGifs(gifs)
+        })
+
+        setNombreCategoria(categoria)
     }
 
-    const handleGetGif = () =>{
-        reqGif()
-    }
-
-    // return hook
+    // return hook -> espacio determinado para colocar la menos logica posible
     return{
-        gif,
-        handleGetGif
+        handleGetGif,
+        gifs,
+        nombreCategoria
     }
 }
